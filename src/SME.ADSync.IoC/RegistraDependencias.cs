@@ -29,12 +29,14 @@ namespace SME.ADSync.IoC
 
         private static void RegistrarRepositorios(IServiceCollection services, IConfiguration configuration)
         {
+            var repositorioADSync = new RepositorioADSync(configuration.GetConnectionString("ADSync-SqlServer"));
             var repositorioCoreSSO = new RepositorioCoreSSO(configuration.GetConnectionString("CoreSSO"));
             var repositorioAD = new SMEADSync(configuration["domain"], 
                                               configuration["container"], 
                                               configuration["userAD"], 
                                               configuration["passwordAD"]);
 
+            services.TryAddScopedWorkerService<IRepositorioADSync>(_ => repositorioADSync);
             services.TryAddScopedWorkerService<IRepositorioCoreSSO>(_ => repositorioCoreSSO);
             services.TryAddScopedWorkerService<IRepositorioAD>(_ => repositorioAD);
             services.TryAddScopedWorkerService<IComparador>(_ => new Comparador(repositorioCoreSSO, repositorioAD));
@@ -44,6 +46,7 @@ namespace SME.ADSync.IoC
         private static void RegistrarServicos(IServiceCollection services)
         {
             services.TryAddScopedWorkerService<IServicoIncluirUsuariosAD, ServicoIncluirUsuariosAD>();
+            services.TryAddScopedWorkerService<IServicoAtualizarUsuariosAD, ServicoAtualizarUsuariosAD>();
         }
     }
 }

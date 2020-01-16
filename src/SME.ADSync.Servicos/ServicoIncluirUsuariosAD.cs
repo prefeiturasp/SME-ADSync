@@ -16,16 +16,19 @@ namespace SME.ADSync.Servicos
         private readonly IConsultaOU consultaOU;
         private readonly IRepositorioAD repositorioAD;
         private readonly IRepositorioCoreSSO repositorioCoreSSO;
+        private readonly IRepositorioADSync repositorioADSync;
 
         public ServicoIncluirUsuariosAD(IComparador comparador,
                                         IConsultaOU consultaOU,
                                         IRepositorioAD repositorioAD,
-                                        IRepositorioCoreSSO repositorioCoreSSO)
+                                        IRepositorioCoreSSO repositorioCoreSSO,
+                                        IRepositorioADSync repositorioADSync)
         {
             this.comparador = comparador ?? throw new ArgumentNullException(nameof(comparador));
             this.consultaOU = consultaOU ?? throw new ArgumentNullException(nameof(consultaOU));
             this.repositorioAD = repositorioAD ?? throw new ArgumentNullException(nameof(repositorioAD));
             this.repositorioCoreSSO = repositorioCoreSSO ?? throw new ArgumentNullException(nameof(repositorioCoreSSO));
+            this.repositorioADSync = repositorioADSync ?? throw new ArgumentNullException(nameof(repositorioADSync));
         }
 
         public void IncluirUsuariosADOrigemCoreSSO()
@@ -51,6 +54,8 @@ namespace SME.ADSync.Servicos
                         resultado.Resultado = repositorioAD.CriarUsuario(item) ? ResultadoImportacao.Sucesso : ResultadoImportacao.FalhaNaoIdentificada;
                     else
                         resultado.Resultado = ResultadoImportacao.NaoFoiPossivelIdentificarOU;
+
+                    AtualizarSincronizacao(item);
                 }
                 catch (Exception ex)
                 {
@@ -62,6 +67,21 @@ namespace SME.ADSync.Servicos
             }
 
             Log.GravarArquivo(JsonConvert.SerializeObject(resultados), "IncluirUsuariosADOrigemCoreSSO");
+        }
+
+        private void AtualizarSincronizacao(UsuarioDTO item)
+        {
+            var sincronizacaoDto = new SincronizacaoDTO()
+            {
+                UsuarioIdCoreSSO = item.Id,
+                DataUltimaSincronizacao = DateTime.Now,
+                Ativo = item.Situacao.Equals(3)
+            };
+
+            if (repositorioADSync.ObterSincronizacao(item.Id) != null)
+                repositorioADSync.AtualizarSincronizacao(sincronizacaoDto);
+            else
+                repositorioADSync.IncluirSincronizacao(sincronizacaoDto);
         }
     }
 }

@@ -119,7 +119,7 @@ namespace SME.SyncADxCoreSSO.Repositorios
             sqlQuery.AppendLine("UPDATE SYS_Usuario");
             sqlQuery.AppendLine($"SET usu_criptografia = {(int)TipoCriptografia.TripleDES},");
             sqlQuery.AppendLine($"    usu_senha = '{ encrypt.Encrypt(ObterSenhaPadrao(user.Login))}',");
-            sqlQuery.AppendLine($"    usu_dataAlteracao = '{ DateTime.Now }',");
+            sqlQuery.AppendLine($"    usu_dataAlteracao = '{ DateTime.Now }'");
             sqlQuery.AppendLine($"WHERE usu_id = '{user.Id}'");
 
             return connection.Execute(sqlQuery.ToString()) > 0;
@@ -135,8 +135,10 @@ namespace SME.SyncADxCoreSSO.Repositorios
 					            pes_nome VARCHAR(200),
 					            usu_login VARCHAR(500),
 					            usu_dataCriacao DATETIME,
+                                usu_dataAlteracao DATETIME,
 					            usu_criptografia TINYINT,
 					            usu_senha VARCHAR(256),
+                                usu_situacao TINYINT,
 					            professor BIT,
 					            gestor BIT)
          INSERT INTO @Lista
@@ -144,8 +146,10 @@ namespace SME.SyncADxCoreSSO.Repositorios
 	            p.pes_nome,
 	            u.usu_login,
 	            u.usu_dataCriacao,
+                u.usu_dataAlteracao,
 	            u.usu_criptografia,
 	            u.usu_senha,
+                u.usu_situacao,
 	            'True' professor,
 	            'False' gestor
 	         FROM SYS_Usuario u (NOLOCK)
@@ -165,8 +169,10 @@ namespace SME.SyncADxCoreSSO.Repositorios
 	            p.pes_nome,
 	            u.usu_login,
 	            u.usu_dataCriacao,
+                u.usu_dataAlteracao,
 	            u.usu_criptografia,
 	            u.usu_senha,
+                u.usu_situacao,
 	            'False' professor,
 	            'True' gestor
 	         FROM SYS_Usuario u (NOLOCK)
@@ -184,8 +190,10 @@ namespace SME.SyncADxCoreSSO.Repositorios
 		   		         SUBSTRING(pes_nome, CHARINDEX(' ', pes_nome), LEN(pes_nome) - CHARINDEX(' ', pes_nome) + 1) [Sobrenome], 
 		   		         usu_login [Login], 
 		   		         usu_datacriacao [DataCriacao], 
+                         usu_dataAlteracao [DataAlteracao],
 		   		         usu_criptografia [Criptografia],
 		   		         usu_senha [Senha],
+                         usu_situacao [Situacao],
 		   	             ISNULL((SELECT 'S'
 		   			             FROM @Lista
 		   				         WHERE usu_id = l.usu_id AND

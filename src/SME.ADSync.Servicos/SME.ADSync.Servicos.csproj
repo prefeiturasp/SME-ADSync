@@ -8,4 +8,10 @@
     <ProjectReference Include="..\SME.ADSync.Core\SME.ADSync.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="MSTech.Security.Cryptography">
+      <HintPath>..\..\..\SME-Serap-main\Src\MSTech.Library\MSTech\MSTech.Security.Cryptography.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

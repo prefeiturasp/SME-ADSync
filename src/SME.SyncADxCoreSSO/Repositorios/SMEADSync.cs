@@ -1,10 +1,7 @@
 ﻿using SME.ADSync.Core;
 using SME.ADSync.Core.DTO;
-using SME.ADSync.Core.Enumerados;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SME.SyncADxCoreSSO.ADSync
 {

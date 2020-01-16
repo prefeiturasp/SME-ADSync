@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Threading;
 
 namespace SME.ADSync.Core
@@ -85,7 +83,9 @@ namespace SME.ADSync.Core
 
             try
             {
+#if !(DEBUG)
                 usuario.Save();
+#endif
                 user.Descricao = usuario.Description;
                 user.OU = usuario.DistinguishedName ?? contextoPrincipal.Container;
             }
@@ -137,7 +137,7 @@ namespace SME.ADSync.Core
 
         public UsuarioDTO ObterUmOuPadrao(string logon)
         {
-            return UserPrincipal.FindByIdentity(contextoPrincipal, logon).ParaUsurarioDTO();
+            return ObterUsuarioAD(logon).ParaUsuarioDTO();
         }
 
         public abstract IEnumerable<UsuarioDTO> ObterParaComparacao();
@@ -158,12 +158,15 @@ namespace SME.ADSync.Core
             UserPrincipal usuario = UserPrincipal.FindByIdentity(contextoPrincipal, user.Login);
 
             user.Senha = ObterSenhaPadrao(user.Login);
-
+#if (!DEBUG)
             usuario.SetPassword(user.Senha);
+#endif
 
             try
             {
+#if (!DEBUG)
                 usuario.Save();
+#endif
 
                 if (usuario.IsAccountLockedOut())
                     DesbloquearUsuario(usuario);
@@ -171,9 +174,11 @@ namespace SME.ADSync.Core
                 try
                 {
                     usuario.PasswordNeverExpires = true;
+#if (!DEBUG)
                     usuario.Save();
+#endif
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     if (!string.IsNullOrWhiteSpace(conextoLog))
                         Log.GravarLinha(conextoLog, new { Usuario = usuario.SamAccountName, Retorno = "Falha", Mesagem = ex.ToString() }, "PasswordExpiration_");
@@ -185,7 +190,26 @@ namespace SME.ADSync.Core
             }
 
             return true;
+        }
 
+        public void AtualizarSenha(string login, string senha)
+        {
+            UserPrincipal usuario = ObterUsuarioAD(login);
+
+#if (!DEBUG)
+            usuario.SetPassword(senha);
+            usuario.Save();
+#endif
+        }
+
+        public void DesativarUsuario(string login)
+        {
+            var usuario = ObterUsuarioAD(login);
+
+            usuario.Enabled = false;
+#if (!DEBUG)
+            usuario.Save();
+#endif
         }
 
         private void DesbloquearUsuario(UserPrincipal usuario)
@@ -213,6 +237,16 @@ namespace SME.ADSync.Core
             {
                 Log.GravarLinha(ContextoLog, new { Usuario = usuario.SamAccountName, Retorno = "Falha", Mensagem = ex.ToString() }, "Desbloqueio_");
             }
+        }
+
+        private UserPrincipal ObterUsuarioAD(string login)
+        {
+            var usuario = UserPrincipal.FindByIdentity(contextoPrincipal, login);
+
+            if (usuario == null)
+                throw new ApplicationException($"Usuário {login} não localizado no AD.");
+
+            return usuario;
         }
     }
 }

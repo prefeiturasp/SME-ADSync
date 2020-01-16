@@ -9,7 +9,7 @@ namespace SME.ADSync.Core.Extensoes
 {
     public static class ExtensaoUserDTO
     {
-        public static UsuarioDTO ParaUsurarioDTO(this UserPrincipal @this)
+        public static UsuarioDTO ParaUsuarioDTO(this UserPrincipal @this)
         {
             if (@this != null)
             {
