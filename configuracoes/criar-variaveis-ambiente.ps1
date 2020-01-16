@@ -1,0 +1,7 @@
+[Environment]::SetEnvironmentVariable("ADSync_ConnectionStrings__ADSync-HangFire-SqlServer", "Server=.\sqlexpress;Initial Catalog=ADSyncHangFire;User ID=sa;Password=S@12345", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_ConnectionStrings__CoreSSO", "Server=.\sqlexpress;Initial Catalog=CoreSSO;User ID=sa;Password=S@12345", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_ConnectionStrings__ADSync-SqlServer", "Server=.\sqlexpress;Initial Catalog=ADSync;User ID=sa;Password=S@12345", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_domain", "amcom", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_container", "DC=amcom,DC=intranet", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_userAD", "robson.silva", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_passwordAD", "Dyl@n08122010", "Machine")

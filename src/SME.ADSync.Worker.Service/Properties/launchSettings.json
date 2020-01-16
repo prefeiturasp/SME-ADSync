@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "SME.ADSync.Worker.Service": {
+      "commandName": "Project"
+    }
+  }
+}
