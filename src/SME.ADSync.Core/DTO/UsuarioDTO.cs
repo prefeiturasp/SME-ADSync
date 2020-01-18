@@ -17,6 +17,7 @@ namespace SME.ADSync.Core.DTO
         public string Descricao { get; set; }
         public short Situacao { get; set; }
         public DateTime DataAlteracao { get; set; }
+        public string Erro { get; set; }
 
         public static bool operator ==(UsuarioDTO sideA, UsuarioDTO sideB)
         {

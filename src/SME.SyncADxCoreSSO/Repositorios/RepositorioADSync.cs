@@ -25,7 +25,7 @@ namespace SME.SyncADxCoreSSO.Repositorios
         public void AtualizarSincronizacao(SincronizacaoDTO sincronizacao)
         {
             var sqlQuery = new StringBuilder();
-            sqlQuery.AppendLine("UPDATE INTO Sincronizacao");
+            sqlQuery.AppendLine("UPDATE Sincronizacao");
             sqlQuery.AppendLine("SET DataUltimaSincronizacao = @DataUltimaSincronizacao,");
             sqlQuery.AppendLine("    Ativo = @Ativo");
             sqlQuery.AppendLine("WHERE UsuarioIdCoreSSO = @UsuarioIdCoreSSO");

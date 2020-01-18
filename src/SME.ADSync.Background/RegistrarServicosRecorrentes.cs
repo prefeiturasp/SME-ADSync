@@ -8,8 +8,8 @@ namespace SME.ADSync.Background
     {
         public static void Registrar()
         {
-            Cliente.ExecutarPeriodicamente<IServicoIncluirUsuariosAD>(c => c.IncluirUsuariosADOrigemCoreSSO(), "*/30 * * * *");
-            Cliente.ExecutarPeriodicamente<IServicoAtualizarUsuariosAD>(c => c.AtualizarUsuariosAD(), "*/5 * * * *");
+            Cliente.ExecutarPeriodicamente<IServicoIncluirUsuariosAD>(c => c.IncluirUsuariosADOrigemCoreSSO(), "*/5 * * * *");
+            Cliente.ExecutarPeriodicamente<IServicoAtualizarUsuariosAD>(c => c.AtualizarUsuariosAD(), "*/30 * * * *");
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SME.ADSync.Core
 
         protected PrincipalContext contextoPrincipal;
 
-        public RepositorioADBase(string dominio, string diretorio, string usuario, string senha)
+        protected RepositorioADBase(string dominio, string diretorio, string usuario, string senha)
         {
             contextoPrincipal = ObterContexto(dominio, diretorio, usuario, senha);
         }
@@ -146,14 +146,10 @@ namespace SME.ADSync.Core
         {
             var usr = ObterUmOuPadrao(user.Login);
             if (usr == null)
-            {
                 throw new ApplicationException(user.Login + " não existe no AD");
-            }
             else
-            {
                 user.Descricao = usr.Descricao;
                 user.OU = usr.OU;
-            }
 
             UserPrincipal usuario = UserPrincipal.FindByIdentity(contextoPrincipal, user.Login);
 
@@ -243,8 +239,7 @@ namespace SME.ADSync.Core
         {
             var usuario = UserPrincipal.FindByIdentity(contextoPrincipal, login);
 
-            if (usuario == null)
-                throw new ApplicationException($"Usuário {login} não localizado no AD.");
+            Console.WriteLine($"Usuário {login} não localizado no AD.");
 
             return usuario;
         }
