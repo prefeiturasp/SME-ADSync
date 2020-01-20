@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Reference Include="MSTech.Security.Cryptography">
-      <HintPath>..\..\..\SME-Serap-main\Src\MSTech.Library\MSTech\MSTech.Security.Cryptography.dll</HintPath>
+      <HintPath>..\SME.ADSync.Servicos\Lib\MSTech.Security.Cryptography.dll</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>

@@ -28,8 +28,8 @@ namespace SME.ADSync.Core
         {
             PrincipalContext contextoPrincipal = null;
             try
-            {
-                contextoPrincipal = new PrincipalContext(ContextType.Domain, dominio, diretorio, usuario, senha);
+            {                  
+                contextoPrincipal = new PrincipalContext(ContextType.Domain, dominio, diretorio, usuario, senha);               
 
                 if (!contextoPrincipal.ValidateCredentials(usuario, senha))
                     throw new ApplicationException("Falha ao autenticar");

@@ -9,8 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="MSTech.Security.Cryptography">
-      <HintPath>..\..\..\SME-Serap-main\Src\MSTech.Library\MSTech\MSTech.Security.Cryptography.dll</HintPath>
+      <HintPath>Lib\MSTech.Security.Cryptography.dll</HintPath>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 
