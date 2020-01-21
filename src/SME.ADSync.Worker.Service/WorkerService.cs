@@ -49,14 +49,14 @@ namespace SME.ADSync.Worker.Service
             return Task.CompletedTask;
         }
 
-        internal static void Configurar(IConfiguration config, IServiceCollection services)
+        public static void Configurar(IConfiguration config, IServiceCollection services)
         {
             HangfireWorkerService = new Servidor<HangFire.Worker>(new HangFire.Worker(config, services, config.GetConnectionString("ADSync-HangFire-SqlServer")));
         }
 
-        internal static void ConfigurarDependencias(IConfiguration configuration, IServiceCollection services)
+        public static void ConfigurarDependencias(IConfiguration configuration, IServiceCollection services, bool singleton = false)
         {
-            RegistraDependencias.Registrar(services, configuration);
+            RegistraDependencias.Registrar(services, configuration, singleton);
             Orquestrador.Inicializar(services.BuildServiceProvider());
             Orquestrador.Registrar(new Processor(configuration, "ADSync-HangFire-SqlServer"));
             RegistrarServicosRecorrentes.Registrar();

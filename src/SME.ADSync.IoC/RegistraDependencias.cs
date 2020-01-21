@@ -15,38 +15,60 @@ namespace SME.ADSync.IoC
     public static class RegistraDependencias
     {
 
-        public static void Registrar(IServiceCollection services, IConfiguration configuration)
+        public static void Registrar(IServiceCollection services, IConfiguration configuration, bool singleton = false)
         {
-            RegistrarContextos(services);
-            RegistrarRepositorios(services, configuration);
-            RegistrarServicos(services);
+            RegistrarContextos(services, singleton);
+            RegistrarRepositorios(services, configuration, singleton);
+            RegistrarServicos(services, singleton);
         }
 
-        private static void RegistrarContextos(IServiceCollection services)
+        private static void RegistrarContextos(IServiceCollection services, bool singleton)
         {
-            services.TryAddScopedWorkerService<IContextoAplicacao, WorkerContext>();            
+            if (singleton)
+                services.AddSingleton<IContextoAplicacao, WorkerContext>();
+            else
+                services.TryAddScopedWorkerService<IContextoAplicacao, WorkerContext>();
         }
 
-        private static void RegistrarRepositorios(IServiceCollection services, IConfiguration configuration)
+        private static void RegistrarRepositorios(IServiceCollection services, IConfiguration configuration, bool singleton)
         {
             var repositorioADSync = new RepositorioADSync(configuration.GetConnectionString("ADSync-SqlServer"));
             var repositorioCoreSSO = new RepositorioCoreSSO(configuration.GetConnectionString("CoreSSO"));
-            var repositorioAD = new SMEADSync(configuration["domain"], 
-                                              configuration["container"], 
-                                              configuration["userAD"], 
+            var repositorioAD = new SMEADSync(configuration["domain"],
+                                              configuration["container"],
+                                              configuration["userAD"],
                                               configuration["passwordAD"]);
 
-            services.TryAddScopedWorkerService<IRepositorioADSync>(_ => repositorioADSync);
-            services.TryAddScopedWorkerService<IRepositorioCoreSSO>(_ => repositorioCoreSSO);
-            services.TryAddScopedWorkerService<IRepositorioAD>(_ => repositorioAD);
-            services.TryAddScopedWorkerService<IComparador>(_ => new Comparador(repositorioCoreSSO, repositorioAD));
-            services.TryAddScopedWorkerService<IConsultaOU>(_ => repositorioCoreSSO);
+            if (singleton)
+            {
+                services.AddSingleton<IRepositorioADSync>(_ => repositorioADSync);
+                services.AddSingleton<IRepositorioCoreSSO>(_ => repositorioCoreSSO);
+                services.AddSingleton<IRepositorioAD>(_ => repositorioAD);
+                services.AddSingleton<IComparador>(_ => new Comparador(repositorioCoreSSO, repositorioAD));
+                services.AddSingleton<IConsultaOU>(_ => repositorioCoreSSO);
+            }
+            else
+            {
+                services.TryAddScopedWorkerService<IRepositorioADSync>(_ => repositorioADSync);
+                services.TryAddScopedWorkerService<IRepositorioCoreSSO>(_ => repositorioCoreSSO);
+                services.TryAddScopedWorkerService<IRepositorioAD>(_ => repositorioAD);
+                services.TryAddScopedWorkerService<IComparador>(_ => new Comparador(repositorioCoreSSO, repositorioAD));
+                services.TryAddScopedWorkerService<IConsultaOU>(_ => repositorioCoreSSO);
+            }
         }
 
-        private static void RegistrarServicos(IServiceCollection services)
+        private static void RegistrarServicos(IServiceCollection services, bool singleton)
         {
-            services.TryAddScopedWorkerService<IServicoIncluirUsuariosAD, ServicoIncluirUsuariosAD>();
-            services.TryAddScopedWorkerService<IServicoAtualizarUsuariosAD, ServicoAtualizarUsuariosAD>();
+            if (singleton)
+            {
+                services.AddSingleton<IServicoIncluirUsuariosAD, ServicoIncluirUsuariosAD>();
+                services.AddSingleton<IServicoAtualizarUsuariosAD, ServicoAtualizarUsuariosAD>();
+            }
+            else
+            {
+                services.TryAddScopedWorkerService<IServicoIncluirUsuariosAD, ServicoIncluirUsuariosAD>();
+                services.TryAddScopedWorkerService<IServicoAtualizarUsuariosAD, ServicoAtualizarUsuariosAD>();
+            }
         }
     }
 }

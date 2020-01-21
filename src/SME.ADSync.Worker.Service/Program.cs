@@ -14,7 +14,7 @@ namespace SME.ADSync.Worker.Service
         {
             var asService = !(Debugger.IsAttached || args.Contains("--console"));
 
-            var builder = new HostBuilder()
+            var builder = new HostBuilder()  
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
                     config.AddEnvironmentVariables("ADSync_");

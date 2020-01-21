@@ -9,17 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.Legancy", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.SyncADxCoreSSO", "src\SME.SyncADxCoreSSO\SME.SyncADxCoreSSO.csproj", "{E1B90EC4-EF79-4A1B-8C2D-6B5809391A81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.Background", "src\SME.ADSync.Background\SME.ADSync.Background.csproj", "{AA196131-25DB-4004-A291-5E321445863B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.ADSync.Background", "src\SME.ADSync.Background\SME.ADSync.Background.csproj", "{AA196131-25DB-4004-A291-5E321445863B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.Infra", "src\SME.ADSync.Infra\SME.ADSync.Infra.csproj", "{1AC2322D-8033-4F6C-90C7-0D4EB465AD91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.ADSync.Infra", "src\SME.ADSync.Infra\SME.ADSync.Infra.csproj", "{1AC2322D-8033-4F6C-90C7-0D4EB465AD91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.Servicos", "src\SME.ADSync.Servicos\SME.ADSync.Servicos.csproj", "{73210104-3E45-4EE1-AD5F-C9F3362DE598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.ADSync.Servicos", "src\SME.ADSync.Servicos\SME.ADSync.Servicos.csproj", "{73210104-3E45-4EE1-AD5F-C9F3362DE598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.Worker.Service", "src\SME.ADSync.Worker.Service\SME.ADSync.Worker.Service.csproj", "{5D53CE65-2674-4188-A6DF-E897AEAF704B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.ADSync.Worker.Service", "src\SME.ADSync.Worker.Service\SME.ADSync.Worker.Service.csproj", "{5D53CE65-2674-4188-A6DF-E897AEAF704B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.HangFire", "src\SME.ADSync.HangFire\SME.ADSync.HangFire.csproj", "{BAF007FA-3D94-4F2E-9C47-566D34F55966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.ADSync.HangFire", "src\SME.ADSync.HangFire\SME.ADSync.HangFire.csproj", "{BAF007FA-3D94-4F2E-9C47-566D34F55966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.IoC", "src\SME.ADSync.IoC\SME.ADSync.IoC.csproj", "{A4F35CFD-BAF3-4FE7-91F8-D5C8102EEEB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.ADSync.IoC", "src\SME.ADSync.IoC\SME.ADSync.IoC.csproj", "{A4F35CFD-BAF3-4FE7-91F8-D5C8102EEEB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SME.ADSync.WindowsService", "src\SME.ADSync.WindowsService\SME.ADSync.WindowsService.csproj", "{0AB329B0-95C9-41F0-A664-56DB8320BBBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{A4F35CFD-BAF3-4FE7-91F8-D5C8102EEEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4F35CFD-BAF3-4FE7-91F8-D5C8102EEEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4F35CFD-BAF3-4FE7-91F8-D5C8102EEEB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AB329B0-95C9-41F0-A664-56DB8320BBBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AB329B0-95C9-41F0-A664-56DB8320BBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AB329B0-95C9-41F0-A664-56DB8320BBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AB329B0-95C9-41F0-A664-56DB8320BBBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
