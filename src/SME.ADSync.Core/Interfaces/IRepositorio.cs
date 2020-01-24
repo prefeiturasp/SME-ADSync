@@ -16,6 +16,7 @@ namespace SME.ADSync.Core.Interfaces
         UsuarioDTO ObterUmOuPadrao(string logon);
 
         IEnumerable<UsuarioDTO> ObterParaComparacao();
+
         string ObterSenhaPadrao(string login);
     }
 }

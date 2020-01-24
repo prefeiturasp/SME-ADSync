@@ -30,49 +30,52 @@ namespace SME.ADSync.Servicos
             var usuarios = repositorioCoreSSO.ObterParaComparacao();
 
             foreach (var usuario in usuarios)
-            {
-                var sincronizacao = repositorioADSync.ObterSincronizacao(usuario.Id);
-                if (sincronizacao == null || usuario.DataAlteracao > sincronizacao.DataUltimaSincronizacao)
+            {                
+                if (usuario.Eh_Gestor.Equals('S') || (usuario.Eh_Professor.Equals('S') && usuario.DataCriacao.Date > usuario.HojeMenos40Meses.Date))
                 {
-                    var resultado = new ResultadoSincronismoDTO() { Usuario = usuario };
-                    try
+                    var sincronizacao = repositorioADSync.ObterSincronizacao(usuario.Id);
+                    if (sincronizacao == null || usuario.DataAlteracao > sincronizacao.DataUltimaSincronizacao)
                     {
-                        if (usuario.Situacao.Equals(3))
-                            repositorioAD.DesativarUsuario(usuario.Login);
-                        else if ((TipoCriptografia)usuario.Criptografia != TipoCriptografia.TripleDES)
+                        var resultado = new ResultadoSincronismoDTO() { Usuario = usuario };
+                        try
                         {
-                            repositorioCoreSSO.ResetarSenhaParaPadrao(usuario);
-                            repositorioAD.ResetarSenhaParaPadrao(usuario);
-                        }
-                        else
-                            repositorioAD.AtualizarSenha(usuario.Login, new MSTech.Security.Cryptography.SymmetricAlgorithm(MSTech.Security.Cryptography.SymmetricAlgorithm.Tipo.TripleDES).Decrypt(usuario.Senha));
-
-                        if (sincronizacao == null)
-                        {                            
-                            repositorioADSync.IncluirSincronizacao(new SincronizacaoDTO()
+                            if (usuario.Situacao.Equals(3))
+                                repositorioAD.DesativarUsuario(usuario.Login);
+                            else if ((TipoCriptografia)usuario.Criptografia != TipoCriptografia.TripleDES)
                             {
-                                UsuarioIdCoreSSO = usuario.Id,
-                                DataUltimaSincronizacao = DateTime.Now,
-                                Ativo = !usuario.Situacao.Equals(3)
-                            });
-                        }
-                        else
-                        {
-                            sincronizacao.DataUltimaSincronizacao = DateTime.Now;
-                            repositorioADSync.AtualizarSincronizacao(sincronizacao);
-                        }
+                                repositorioCoreSSO.ResetarSenhaParaPadrao(usuario);
+                                repositorioAD.ResetarSenhaParaPadrao(usuario);
+                            }
+                            else
+                                repositorioAD.AtualizarSenha(usuario.Login, new MSTech.Security.Cryptography.SymmetricAlgorithm(MSTech.Security.Cryptography.SymmetricAlgorithm.Tipo.TripleDES).Decrypt(usuario.Senha));
 
-                        resultado.Sucesso = true;
+                            if (sincronizacao == null)
+                            {
+                                repositorioADSync.IncluirSincronizacao(new SincronizacaoDTO()
+                                {
+                                    UsuarioIdCoreSSO = usuario.Id,
+                                    DataUltimaSincronizacao = DateTime.Now,
+                                    Ativo = !usuario.Situacao.Equals(3)
+                                });
+                            }
+                            else
+                            {
+                                sincronizacao.DataUltimaSincronizacao = DateTime.Now;
+                                repositorioADSync.AtualizarSincronizacao(sincronizacao);
+                            }
+
+                            resultado.Sucesso = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            resultado.Sucesso = false;
+                            resultado.MensagemErro = ex.Message;
+                        }
+                        resultados.Add(resultado);
                     }
-                    catch (Exception ex)
-                    {
-                        resultado.Sucesso = false;
-                        resultado.MensagemErro = ex.Message;
-                    }
-                    resultados.Add(resultado);
                 }
-            }
-            Log.GravarArquivo(JsonConvert.SerializeObject(resultados), "AtualizarUsuariosAD");
+                Log.GravarArquivo(JsonConvert.SerializeObject(resultados), "AtualizarUsuariosAD");
+            }                
         }
     }
 }

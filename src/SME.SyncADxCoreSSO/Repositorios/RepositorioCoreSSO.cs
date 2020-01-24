@@ -183,7 +183,15 @@ namespace SME.SyncADxCoreSSO.Repositorios
 		         INNER JOIN SYS_Grupo g (NOLOCK)
 		 	        ON ug.gru_id = g.gru_id
          WHERE g.sis_id = 102 AND
-	           g.gru_nome LIKE 'SGP - Adm na UE'
+	           g.gru_id in ('28880585-89C5-E311-B1FE-782BCB3D2D76', --Assistente de Diretor na UE
+				            '85A1DF73-9DC5-E311-B1FE-782BCB3D2D76', --SGP - AD
+				            '3EC44693-92AF-E311-B1FE-782BCB3D2D76', --SGP - Coordenador Pedagógico
+				            '077B5042-A9B6-E311-B1FE-782BCB3D2D76', --SGP - Diretor Escolar
+				            'EA7EC579-B006-479E-BCA6-4A7BEBB5412E', --SGP - Diretor Inf. Terceirizado
+				            '8D32E519-C55E-E411-819D-782BCB3D218E', --SGP - Diretor Regional
+				            '3EE28335-163A-4D2B-9A4A-9B9F09EE01A6', --SGP - Sec Escolar Inf Terceirizado
+				            'CACC8667-EB64-494D-B31A-88FD1E2C3904', --SGP - Sec. Escolar Infantil
+				            '8E49D1FE-326B-E411-819D-782BCB3D218E') --SGP - Secretário Escolar
            
          SELECT DISTINCT usu_id [Id],
                          SUBSTRING(LTRIM(pes_nome), 1, CHARINDEX(' ', pes_nome)) [PrimeiroNome], 

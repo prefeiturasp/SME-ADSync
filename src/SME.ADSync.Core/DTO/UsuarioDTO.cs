@@ -16,9 +16,12 @@ namespace SME.ADSync.Core.DTO
         public string OU { get; set; }
         public string Descricao { get; set; }
         public short Situacao { get; set; }
+        public DateTime DataCriacao { get; set; }
         public DateTime DataAlteracao { get; set; }
         public string Erro { get; set; }
-
+        public char Eh_Professor { get; set; }
+        public char Eh_Gestor { get; set; }
+        public DateTime HojeMenos40Meses { get; set; }
         public static bool operator ==(UsuarioDTO sideA, UsuarioDTO sideB)
         {
             if (object.ReferenceEquals(sideA, null))
