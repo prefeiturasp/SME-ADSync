@@ -5,7 +5,6 @@ using SME.ADSync.Worker.Service;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SME.ADSync.WindowsService
@@ -20,7 +19,7 @@ namespace SME.ADSync.WindowsService
 
             if (asService)
             {
-                builder = new HostBuilder()                      
+                builder = new HostBuilder()
                     .ConfigureServices((hostContext, services) =>
                     {
                         services.AddHostedService<WorkerService>();
@@ -39,7 +38,7 @@ namespace SME.ADSync.WindowsService
                         WorkerService.ConfigurarDependencias(hostContext.Configuration, services);
                         WorkerService.Configurar(hostContext.Configuration, services);
                     });
-            }                         
+            }
 
             builder.UseEnvironment(asService ? Environments.Production : Environments.Development);
 

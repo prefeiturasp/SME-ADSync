@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Diagnostics;
 
 namespace SME.ADSync.Core.Extesions
 {
@@ -40,10 +40,7 @@ namespace SME.ADSync.Core.Extesions
             }
 
             if (!string.IsNullOrWhiteSpace(arquivo))
-            {
                 File.AppendAllLines(arquivo, new string[] { Newtonsoft.Json.JsonConvert.SerializeObject(seraUmJson) });
-            }
-
         }
     }
 }

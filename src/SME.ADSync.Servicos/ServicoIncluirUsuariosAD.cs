@@ -37,12 +37,9 @@ namespace SME.ADSync.Servicos
                                     where i.LadoA != null && i.Resultado == ResultadoComparacao.SomenteLadoA
                                     select i.LadoA;
 
-            IList<ResultadoImportacaoDTO> resultados = new List<ResultadoImportacaoDTO>();
-
             foreach (var item in registrosInclusao)
             {
                 ResultadoImportacaoDTO resultado = new ResultadoImportacaoDTO() { Usuario = item };
-
                 try
                 {
                     var ouUsuario = consultaOU.MontarOUUsuario(item.Login, item.OU);
@@ -63,10 +60,8 @@ namespace SME.ADSync.Servicos
                     resultado.MensagemErro = ex.ToString();
                 }
 
-                resultados.Add(resultado);
+                repositorioADSync.IncluirResultadoSincronizacao(resultado);
             }
-
-            Log.GravarArquivo(JsonConvert.SerializeObject(resultados), "IncluirUsuariosADOrigemCoreSSO");
         }
 
         private void AtualizarSincronizacao(UsuarioDTO item)

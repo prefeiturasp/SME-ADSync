@@ -26,7 +26,6 @@ namespace SME.ADSync.Servicos
 
         public void AtualizarUsuariosAD()
         {
-            IList<ResultadoSincronismoDTO> resultados = new List<ResultadoSincronismoDTO>();
             var usuarios = repositorioCoreSSO.ObterParaComparacao();
 
             foreach (var usuario in usuarios)
@@ -43,8 +42,8 @@ namespace SME.ADSync.Servicos
                                 repositorioAD.DesativarUsuario(usuario.Login);
                             else if ((TipoCriptografia)usuario.Criptografia != TipoCriptografia.TripleDES)
                             {
-                                repositorioCoreSSO.ResetarSenhaParaPadrao(usuario);
                                 repositorioAD.ResetarSenhaParaPadrao(usuario);
+                                repositorioCoreSSO.ResetarSenhaParaPadrao(usuario);
                             }
                             else
                                 repositorioAD.AtualizarSenha(usuario.Login, new MSTech.Security.Cryptography.SymmetricAlgorithm(MSTech.Security.Cryptography.SymmetricAlgorithm.Tipo.TripleDES).Decrypt(usuario.Senha));
@@ -71,10 +70,9 @@ namespace SME.ADSync.Servicos
                             resultado.Sucesso = false;
                             resultado.MensagemErro = ex.Message;
                         }
-                        resultados.Add(resultado);
+                        repositorioADSync.IncluirResultadoSincronizacao(resultado);
                     }
                 }
-                Log.GravarArquivo(JsonConvert.SerializeObject(resultados), "AtualizarUsuariosAD");
             }                
         }
     }

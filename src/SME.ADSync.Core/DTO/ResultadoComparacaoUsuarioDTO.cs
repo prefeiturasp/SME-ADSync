@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SME.ADSync.Core.Enumerados;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SME.ADSync.Core.DTO
 {

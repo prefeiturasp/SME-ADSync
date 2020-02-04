@@ -8,5 +8,6 @@ namespace SME.ADSync.Core.Interfaces
         void IncluirSincronizacao(SincronizacaoDTO sincronizacao);
         SincronizacaoDTO ObterSincronizacao(Guid usuarioIdCoreSSO);
         void AtualizarSincronizacao(SincronizacaoDTO sincronizacao);
+        void IncluirResultadoSincronizacao<T>(T resultado) where T : ResultadoBaseDTO;
     }
 }
