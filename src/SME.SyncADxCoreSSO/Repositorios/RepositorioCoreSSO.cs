@@ -127,7 +127,7 @@ namespace SME.SyncADxCoreSSO.Repositorios
 
         public string ObterSenhaPadrao(string login)
         {
-            return $"Sei@{login.Substring(login.Length - 4, 4)}";
+            return $"Agp{login.PadLeft(4, '0').Substring(login.Length - 4, 4)}";
         }
 
         const string Query =
