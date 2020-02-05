@@ -36,7 +36,7 @@ namespace SME.SyncADxCoreSSO.Repositorios
 
         public IEnumerable<UsuarioDTO> ObterParaComparacao()
         {            
-            return connection.Query<UsuarioDTO>(Query, commandTimeout: 120);
+            return connection.Query<UsuarioDTO>(Query, commandTimeout: 180);
         }
 
         public IEnumerable<UsuarioDTO> Listar(string[] logons)
