@@ -116,13 +116,19 @@ namespace SME.SyncADxCoreSSO.Repositorios
             var encrypt = new MSTech.Security.Cryptography.SymmetricAlgorithm(MSTech.Security.Cryptography.SymmetricAlgorithm.Tipo.TripleDES);
             var sqlQuery = new StringBuilder();
 
-            sqlQuery.AppendLine("UPDATE SYS_Usuario");
-            sqlQuery.AppendLine($"SET usu_criptografia = {(int)TipoCriptografia.TripleDES},");
-            sqlQuery.AppendLine($"    usu_senha = '{ encrypt.Encrypt(ObterSenhaPadrao(user.Login))}',");
-            sqlQuery.AppendLine($"    usu_dataAlteracao = '{ DateTime.Now }'");
-            sqlQuery.AppendLine($"WHERE usu_id = '{user.Id}'");
+            var parameters = new DynamicParameters();
+            parameters.Add("@criptografia", (int)TipoCriptografia.TripleDES);
+            parameters.Add("@dataAlteracao", DateTime.Now);
+            parameters.Add("@senha", encrypt.Encrypt(ObterSenhaPadrao(user.Login)));
+            parameters.Add("@usuarioId", user.Id);
 
-            return connection.Execute(sqlQuery.ToString()) > 0;
+            sqlQuery.AppendLine("UPDATE SYS_Usuario");
+            sqlQuery.AppendLine($"SET usu_criptografia = @criptografia,");
+            sqlQuery.AppendLine($"    usu_senha = @senha,");
+            sqlQuery.AppendLine($"    usu_dataAlteracao = @dataAlteracao");
+            sqlQuery.AppendLine($"WHERE usu_id = @usuarioId");
+
+            return connection.Execute(sqlQuery.ToString(), parameters) > 0;
         }
 
         public string ObterSenhaPadrao(string login)
@@ -156,7 +162,8 @@ namespace SME.SyncADxCoreSSO.Repositorios
 		         INNER JOIN PES_Pessoa p (NOLOCK)
 		 	        ON u.pes_id = p.pes_id
 		         INNER JOIN SYS_UsuarioGrupo ug (NOLOCK)
-		 	        ON u.usu_id = ug.usu_id
+		 	        ON u.usu_id = ug.usu_id AND
+                       ug.usg_situacao <> 3
 		         INNER JOIN SYS_Grupo g (NOLOCK)
 		 	        ON ug.gru_id = g.gru_id
          WHERE u.usu_dataCriacao BETWEEN '2016-07-01' AND GETDATE() AND
@@ -179,7 +186,8 @@ namespace SME.SyncADxCoreSSO.Repositorios
 		         INNER JOIN PES_Pessoa p (NOLOCK)
 		 	        ON u.pes_id = p.pes_id
 		         INNER JOIN SYS_UsuarioGrupo ug (NOLOCK)
-		 	        ON u.usu_id = ug.usu_id
+		 	        ON u.usu_id = ug.usu_id AND
+                       ug.usg_situacao <> 3
 		         INNER JOIN SYS_Grupo g (NOLOCK)
 		 	        ON ug.gru_id = g.gru_id
          WHERE g.sis_id = 102 AND
