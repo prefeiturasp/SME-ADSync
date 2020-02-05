@@ -10,8 +10,8 @@ namespace SME.ADSync.Background
         {
             // Diariamente as 22:30hrs
             Cliente.ExecutarPeriodicamente<IServicoIncluirUsuariosAD>(c => c.IncluirUsuariosADOrigemCoreSSO(), "0 30 22 * * *");            
-            // A cada hora
-            Cliente.ExecutarPeriodicamente<IServicoAtualizarUsuariosAD>(c => c.AtualizarUsuariosAD(), "0 0 * * * *");            
+            // A cada meia hora
+            Cliente.ExecutarPeriodicamente<IServicoAtualizarUsuariosAD>(c => c.AtualizarUsuariosAD(), "* */30 * * * *");            
         }
     }
 }
