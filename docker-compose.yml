@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  sme-adsync-workerservice:
+    container_name: sme-adsync-workerservice
+    image: sme-adsync-workerservice
+    build:
+      context: .
+      dockerfile: ./src/SME.ADSync.Worker.Service/Dockerfile
+    ports:
+      - '5001:5001'
+    networks:
+      - sme-network
+    env_file:
+      - sme-adsync-service.env
+networks: 
+  sme-network:
+    driver: bridge

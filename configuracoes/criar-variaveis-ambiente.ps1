@@ -1,0 +1,7 @@
+[Environment]::SetEnvironmentVariable("ADSync_ConnectionStrings__ADSync-HangFire-SqlServer", "$connectionstringadsynchangfire$", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_ConnectionStrings__CoreSSO", "$connectionstringcoresso$", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_ConnectionStrings__ADSync-SqlServer", "$connectionstringadsync$", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_domain", "$domain$", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_container", "$domaincontainer$", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_userAD", "$userlogin$", "Machine")
+[Environment]::SetEnvironmentVariable("ADSync_passwordAD", "$passwordlogin$", "Machine")
